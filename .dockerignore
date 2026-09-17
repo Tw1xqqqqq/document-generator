@@ -1,0 +1,13 @@
+# Всё, что не нужно отправлять Docker при сборке образов.
+# Зависимости ставятся внутри контейнеров (npm ci / composer install),
+# поэтому локальные копии только замедляют сборку.
+.git
+**/node_modules
+**/vendor
+frontend/dist
+backend/storage/logs/*
+backend/storage/framework/cache/*
+backend/storage/framework/sessions/*
+backend/storage/framework/views/*
+backend/database/*.sqlite
+backend/.env

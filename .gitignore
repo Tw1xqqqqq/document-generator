@@ -1,0 +1,23 @@
+# Зависимости (ставятся командами composer install / npm ci)
+/backend/vendor
+/frontend/node_modules
+
+# Сборка фронтенда
+/frontend/dist
+
+# Локальные настройки и база
+/backend/.env
+/backend/database/*.sqlite
+/backend/storage/app/templates
+/backend/storage/app/documents
+/backend/storage/framework/cache/*
+/backend/storage/framework/sessions/*
+/backend/storage/framework/views/*
+/backend/storage/logs/*
+/backend/public/storage
+
+# Системное
+.DS_Store
+Thumbs.db
+.idea
+.vscode
