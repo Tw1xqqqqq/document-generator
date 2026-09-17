@@ -1,0 +1,12 @@
+# Переводы строк всегда LF.
+# Иначе при клонировании на Windows скрипты получат CRLF и не запустятся
+# внутри Linux-контейнеров («bad interpreter»).
+* text=auto eol=lf
+
+*.sh text eol=lf
+Dockerfile text eol=lf
+
+*.docx binary
+*.png binary
+*.jpg binary
+*.pdf binary
