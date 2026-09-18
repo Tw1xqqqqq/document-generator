@@ -5,7 +5,7 @@
 	email {$LETSENCRYPT_EMAIL}
 }
 
-{$DOMAIN} {
+{$SITE_ADDRESS} {
 	encode zstd gzip
 
 	# Ограничение доступа паролем.

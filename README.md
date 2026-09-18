@@ -159,6 +159,8 @@ docker compose exec app php artisan migrate:fresh --seed
 dig +short documents.example.com
 ```
 
+Домена может ещё не быть: тогда укажите в `.env` значение `SITE_ADDRESS=http://IP-сервера`, и сервис заработает по обычному http. Когда домен появится, впишите его в `SITE_ADDRESS` и `APP_URL`, перезапустите стек - сертификат выпустится сам.
+
 ### 2. Docker на сервере
 
 ```bash

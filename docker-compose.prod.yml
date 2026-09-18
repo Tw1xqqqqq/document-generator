@@ -11,7 +11,8 @@ services:
     environment:
       APP_ENV: production
       APP_DEBUG: "false"
-      APP_URL: https://${DOMAIN}
+      # Полный адрес сервиса: нужен для ссылок на файлы и логотипы
+      APP_URL: ${APP_URL}
       # Демонстрационные данные на сервере не нужны: иначе при каждом
       # перезапуске правки в карточках организаций затирались бы
       SEED_DEMO_DATA: ${SEED_DEMO_DATA:-false}
@@ -36,7 +37,8 @@ services:
       - "80:80"
       - "443:443"
     environment:
-      DOMAIN: ${DOMAIN}
+      # Домен для сертификата, либо http://IP пока домена нет
+      SITE_ADDRESS: ${SITE_ADDRESS}
       LETSENCRYPT_EMAIL: ${LETSENCRYPT_EMAIL}
     volumes:
       - ./docker/caddy/Caddyfile:/etc/caddy/Caddyfile:ro
