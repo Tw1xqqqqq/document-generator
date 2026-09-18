@@ -8,7 +8,7 @@ use RuntimeException;
 /**
  * Достаёт из docx-файла список меток вида ${client_name}.
  *
- * Почему не просто регулярное выражение по тексту: docx внутри — это zip
+ * Почему не просто регулярное выражение по тексту: docx внутри - это zip
  * с xml, и Word нередко разрывает метку на части (${cli|ent_name}),
  * если в ней менялось форматирование. TemplateProcessor из PhpWord
  * умеет такие разрывы склеивать, поэтому берём список меток у него.
@@ -39,7 +39,7 @@ class PlaceholderExtractor
         }
 
         // getVariables() возвращает метки из основного текста,
-        // колонтитулов и сносок — то, что нам и нужно.
+        // колонтитулов и сносок - то, что нам и нужно.
         $variables = $processor->getVariables();
 
         return array_values(array_unique($variables));

@@ -48,7 +48,7 @@ export function DocumentsPage() {
       <div>
         <Title order={2}>Документы</Title>
         <Text c="dimmed" size="sm">
-          Журнал выпущенных печатных форм: файлы доступны повторно в любой момент
+          Журнал выпущенных печатных форм
         </Text>
       </div>
 

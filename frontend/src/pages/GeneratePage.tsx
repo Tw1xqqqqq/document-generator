@@ -196,7 +196,7 @@ export function GeneratePage() {
       <div>
         <Title order={2}>Генерация документа</Title>
         <Text c="dimmed" size="sm">
-          Выберите организацию и шаблон — форма соберётся из полей этого шаблона
+          Выберите организацию и шаблон, затем заполните поля
         </Text>
       </div>
 
@@ -230,10 +230,9 @@ export function GeneratePage() {
       </Card>
 
       {!ready && (
-        <Alert variant="light" title="Что дальше">
-          После выбора шаблона появятся поля для заполнения. Реквизиты организации
-          подставятся автоматически.
-        </Alert>
+        <Text size="sm" c="dimmed">
+          Поля появятся после выбора шаблона.
+        </Text>
       )}
 
       {ready && template && (

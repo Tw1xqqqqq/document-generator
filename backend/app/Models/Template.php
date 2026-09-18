@@ -18,7 +18,7 @@ class Template extends Model
         'current_version_id',
     ];
 
-    /** Организация-владелец. null — шаблон общий для всех. */
+    /** Организация-владелец. null - шаблон общий для всех. */
     public function organization(): BelongsTo
     {
         return $this->belongsTo(Organization::class);

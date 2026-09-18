@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 
 /**
  * Изменение карточки шаблона: название, описание, организация.
- * Файл здесь не меняется — для этого есть загрузка новой версии.
+ * Файл здесь не меняется - для этого есть загрузка новой версии.
  */
 class UpdateTemplateRequest extends FormRequest
 {

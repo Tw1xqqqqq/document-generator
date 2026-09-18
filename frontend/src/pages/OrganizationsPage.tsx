@@ -119,7 +119,7 @@ export function OrganizationsPage() {
         <div>
           <Title order={2}>Организации</Title>
           <Text c="dimmed" size="sm">
-            Реквизиты подставляются в документы через метки ${'{org.поле}'}
+            Реквизиты для подстановки в документы
           </Text>
         </div>
         <Button leftSection={<IconPlus size={16} />} onClick={openCreate}>
@@ -132,7 +132,7 @@ export function OrganizationsPage() {
 
         {organizations?.length === 0 ? (
           <Alert icon={<IconBuildingSkyscraper size={18} />} title="Организаций пока нет">
-            Добавьте организацию — её реквизиты будут автоматически попадать в документы.
+            Добавьте организацию, чтобы выпускать документы от её имени.
           </Alert>
         ) : (
           <Table.ScrollContainer minWidth={800}>
@@ -158,19 +158,19 @@ export function OrganizationsPage() {
                         <div>
                           <Text fw={500}>{organization.name}</Text>
                           <Text size="xs" c="dimmed" lineClamp={1}>
-                            {organization.legal_address || '—'}
+                            {organization.legal_address || '-'}
                           </Text>
                         </div>
                       </Group>
                     </Table.Td>
                     <Table.Td>
-                      <Text size="sm">{organization.inn || '—'}</Text>
+                      <Text size="sm">{organization.inn || '-'}</Text>
                       <Text size="xs" c="dimmed">
                         {organization.kpp || ''}
                       </Text>
                     </Table.Td>
                     <Table.Td>
-                      <Text size="sm">{organization.director_name || '—'}</Text>
+                      <Text size="sm">{organization.director_name || '-'}</Text>
                       <Text size="xs" c="dimmed">
                         {organization.director_position || ''}
                       </Text>

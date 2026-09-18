@@ -104,7 +104,7 @@ class DocumentController extends Controller
 
     public function destroy(Document $document): JsonResponse
     {
-        // Удаляем папку документа целиком — в ней и docx, и pdf
+        // Удаляем папку документа целиком - в ней и docx, и pdf
         if ($document->pdf_path) {
             Storage::disk('documents')->deleteDirectory(dirname($document->pdf_path));
         }

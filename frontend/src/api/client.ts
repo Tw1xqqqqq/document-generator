@@ -1,7 +1,7 @@
 /**
  * Тонкая обёртка над fetch.
  *
- * Задачи: единый базовый адрес, заголовки JSON и — главное — разбор
+ * Задачи: единый базовый адрес, заголовки JSON и - главное - разбор
  * ошибок валидации Laravel (код 422), чтобы формы могли показать
  * сообщение под конкретным полем.
  */
@@ -19,7 +19,7 @@ export class ApiError extends Error {
     this.errors = errors;
   }
 
-  /** Ошибки в виде { поле: 'сообщение' } — формат, который понимает Mantine. */
+  /** Ошибки в виде { поле: 'сообщение' } - формат, который понимает Mantine. */
   get fieldErrors(): Record<string, string> {
     return Object.fromEntries(
       Object.entries(this.errors).map(([field, messages]) => [field, messages[0]]),

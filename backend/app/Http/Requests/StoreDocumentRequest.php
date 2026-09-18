@@ -33,7 +33,7 @@ class StoreDocumentRequest extends FormRequest
     public function withValidator(Validator $validator): void
     {
         $validator->after(function (Validator $validator) {
-            // Если базовые правила не прошли, шаблона может не быть — выходим
+            // Если базовые правила не прошли, шаблона может не быть - выходим
             if ($validator->errors()->isNotEmpty()) {
                 return;
             }

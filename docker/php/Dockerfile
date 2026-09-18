@@ -1,10 +1,10 @@
 FROM php:8.4-fpm-alpine
 
 # Системные пакеты и расширения PHP:
-#   intl      — локали и форматирование (нужно Laravel и PhpWord)
-#   zip       — docx это zip-архив, без него PhpWord не откроет шаблон
-#   gd        — вставка картинок (логотип организации) в документ
-#   pdo_sqlite — наша база данных
+#   intl      - локали и форматирование (нужно Laravel и PhpWord)
+#   zip       - docx это zip-архив, без него PhpWord не откроет шаблон
+#   gd        - вставка картинок (логотип организации) в документ
+#   pdo_sqlite - наша база данных
 RUN apk add --no-cache \
         git unzip libzip-dev icu-dev oniguruma-dev sqlite-dev \
         libpng-dev libjpeg-turbo-dev freetype-dev \

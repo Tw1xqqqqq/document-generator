@@ -14,7 +14,7 @@ class AppServiceProvider extends ServiceProvider
     {
         // Клиент конвертации создаётся один раз и получает настройки из config/documents.php.
         // Благодаря этому его можно требовать в конструкторе любого класса,
-        // а в тестах — подменить заглушкой.
+        // а в тестах - подменить заглушкой.
         $this->app->singleton(GotenbergClient::class, fn () => new GotenbergClient(
             baseUrl: config('documents.gotenberg_url'),
             timeout: config('documents.gotenberg_timeout'),

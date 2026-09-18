@@ -1,9 +1,9 @@
 import { createTheme } from '@mantine/core';
 
-/** Оформление приложения: спокойная деловая палитра и единые скругления. */
+/** Оформление приложения: деловая палитра, спокойные акценты. */
 export const theme = createTheme({
   primaryColor: 'indigo',
-  defaultRadius: 'md',
+  defaultRadius: 'sm',
   fontFamily:
     '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
   headings: {
@@ -14,6 +14,15 @@ export const theme = createTheme({
       defaultProps: {
         withBorder: true,
         shadow: 'none',
+      },
+    },
+    Badge: {
+      defaultProps: {
+        // По умолчанию Mantine печатает содержимое плашек капсом,
+        // из-за чего интерфейс выглядит крикливо
+        tt: 'none',
+        fw: 500,
+        variant: 'default',
       },
     },
   },

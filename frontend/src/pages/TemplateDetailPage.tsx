@@ -1,6 +1,5 @@
 import {
   ActionIcon,
-  Alert,
   Anchor,
   Badge,
   Button,
@@ -63,7 +62,7 @@ export function TemplateDetailPage() {
   const uploadVersion = useUploadVersion(templateId);
   const restoreVersion = useRestoreVersion(templateId);
 
-  // Поля правим в локальном состоянии и сохраняем разом — так пользователь
+  // Поля правим в локальном состоянии и сохраняем разом - так пользователь
   // может спокойно всё настроить, а не ждать запроса на каждое нажатие
   const [fields, setFields] = useState<TemplateField[]>([]);
   const [newFile, setNewFile] = useState<File | null>(null);
@@ -185,10 +184,10 @@ export function TemplateDetailPage() {
         {/* Настройка полей */}
         <Tabs.Panel value="fields" pt="md">
           <Stack>
-            <Alert variant="light">
-              Ключи полей берутся из меток документа и не редактируются. Меняются подпись,
-              тип, обязательность и значение по умолчанию.
-            </Alert>
+            <Text size="sm" c="dimmed">
+              Ключ поля задан меткой в файле и не меняется. Настроить можно подпись, тип,
+              обязательность и значение по умолчанию.
+            </Text>
 
             <Table.ScrollContainer minWidth={900}>
               <Table verticalSpacing="xs">
@@ -269,7 +268,7 @@ export function TemplateDetailPage() {
               <Stack gap="sm">
                 <Text fw={500}>Загрузить новую версию файла</Text>
                 <Text size="sm" c="dimmed">
-                  Прошлые версии сохраняются: документы, выпущенные по ним, останутся неизменными.
+                  Прошлые версии сохраняются, выпущенные по ним документы не меняются.
                 </Text>
                 <Group align="flex-end">
                   <FileInput
@@ -329,7 +328,7 @@ export function TemplateDetailPage() {
                     </Table.Td>
                     <Table.Td>
                       <Text size="sm" c="dimmed">
-                        {version.comment || '—'}
+                        {version.comment || '-'}
                       </Text>
                     </Table.Td>
                     <Table.Td>
@@ -378,11 +377,11 @@ export function TemplateDetailPage() {
         {/* Список меток */}
         <Tabs.Panel value="placeholders" pt="md">
           <Stack>
-            <Alert variant="light" title="Как читать список">
-              Метки <Code>{'${org.*}'}</Code> и <Code>{'${doc.*}'}</Code> сервис заполняет сам:
-              первые — реквизитами выбранной организации, вторые — номером и датой документа.
-              Остальные становятся полями формы.
-            </Alert>
+            <Text size="sm" c="dimmed">
+              <Code>{'${org.*}'}</Code> заполняется реквизитами организации,{' '}
+              <Code>{'${doc.*}'}</Code> номером и датой документа. Остальные метки
+              становятся полями формы.
+            </Text>
 
             <Group gap="xs">
               {placeholders.map((placeholder) => {

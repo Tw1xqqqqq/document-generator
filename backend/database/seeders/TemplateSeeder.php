@@ -274,7 +274,7 @@ class TemplateSeeder extends Seeder
             'cellMargin' => 60,
         ]);
 
-        // Таблица подписей без рамок — она нужна только для колонок
+        // Таблица подписей без рамок - она нужна только для колонок
         $word->addTableStyle('signatures', ['cellMargin' => 60]);
     }
 

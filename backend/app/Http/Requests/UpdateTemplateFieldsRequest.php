@@ -7,7 +7,7 @@ use Illuminate\Validation\Rule;
 
 /**
  * Настройка полей шаблона.
- * Приходит сразу весь список — так проще и для формы, и для сохранения.
+ * Приходит сразу весь список - так проще и для формы, и для сохранения.
  */
 class UpdateTemplateFieldsRequest extends FormRequest
 {

@@ -1,7 +1,6 @@
 import {
   ActionIcon,
   Alert,
-  Badge,
   Button,
   Card,
   Group,
@@ -83,7 +82,7 @@ export function TemplatesPage() {
         onError: (error) => {
           if (error instanceof ApiError && error.status === 422) {
             form.setErrors(error.fieldErrors);
-            // Ошибку по файлу форма показать не может — выводим уведомлением
+            // Ошибку по файлу форма показать не может - выводим уведомлением
             if (error.fieldErrors.file) {
               notifications.show({ color: 'red', message: error.fieldErrors.file });
             }
@@ -113,7 +112,7 @@ export function TemplatesPage() {
         <div>
           <Title order={2}>Шаблоны</Title>
           <Text c="dimmed" size="sm">
-            Печатные формы в docx с метками вида ${'{client_name}'}
+            Печатные формы в формате docx
           </Text>
         </div>
         <Group>
@@ -136,39 +135,36 @@ export function TemplatesPage() {
 
         {templates?.length === 0 ? (
           <Alert icon={<IconFileTypeDocx size={18} />} title="Шаблонов пока нет">
-            Загрузите docx-файл с метками — сервис сам определит поля для заполнения.
+            Загрузите docx с метками, поля формы определятся автоматически.
           </Alert>
         ) : (
           <SimpleGrid cols={{ base: 1, sm: 2, lg: 3 }}>
             {templates?.map((template) => (
               <Card key={template.id} padding="md">
                 <Stack gap="xs" h="100%">
-                  <Group justify="space-between" wrap="nowrap" align="flex-start">
-                    <Text fw={600} lineClamp={2}>
-                      {template.name}
-                    </Text>
-                    <Badge variant="light" size="sm">
-                      v{template.current_version?.version ?? 1}
-                    </Badge>
-                  </Group>
-
-                  <Text size="sm" c="dimmed" lineClamp={2}>
-                    {template.description || 'Без описания'}
+                  <Text fw={600} lineClamp={2}>
+                    {template.name}
                   </Text>
 
-                  <Group gap="xs">
-                    <Badge variant="outline" color="gray" size="sm">
-                      {template.organization?.name ?? 'Общий'}
-                    </Badge>
-                    <Badge variant="outline" color="gray" size="sm">
-                      меток: {template.current_version?.placeholders.length ?? 0}
-                    </Badge>
-                    {Boolean(template.documents_count) && (
-                      <Badge variant="outline" color="gray" size="sm">
-                        документов: {template.documents_count}
-                      </Badge>
-                    )}
-                  </Group>
+                  {template.description && (
+                    <Text size="sm" c="dimmed" lineClamp={2}>
+                      {template.description}
+                    </Text>
+                  )}
+
+                  {/* Сводка одной строкой вместо россыпи цветных плашек */}
+                  <Text size="xs" c="dimmed">
+                    {[
+                      template.organization?.name ?? 'Общий шаблон',
+                      `версия ${template.current_version?.version ?? 1}`,
+                      `${template.current_version?.placeholders.length ?? 0} меток`,
+                      template.documents_count
+                        ? `${template.documents_count} документов`
+                        : null,
+                    ]
+                      .filter(Boolean)
+                      .join(' · ')}
+                  </Text>
 
                   <Group justify="space-between" mt="auto" pt="sm">
                     <Button
@@ -222,7 +218,7 @@ export function TemplatesPage() {
                     {file ? file.name : 'Перетащите docx сюда или нажмите для выбора'}
                   </Text>
                   <Text size="xs" c="dimmed">
-                    Метки в файле пишутся как ${'{client_name}'}, реквизиты — ${'{org.inn}'}
+                    Метки в файле пишутся как ${'{client_name}'}, реквизиты - ${'{org.inn}'}
                   </Text>
                 </div>
               </Group>

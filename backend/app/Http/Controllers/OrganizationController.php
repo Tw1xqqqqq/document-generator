@@ -59,7 +59,7 @@ class OrganizationController extends Controller
     public function destroy(Organization $organization): JsonResponse
     {
         // Документы организации удаляются вместе с ней (каскад в миграции),
-        // поэтому предупреждаем фронт, если их много — он спросит подтверждение.
+        // поэтому предупреждаем фронт, если их много - он спросит подтверждение.
         if ($organization->logo_path) {
             Storage::disk('public')->delete($organization->logo_path);
         }

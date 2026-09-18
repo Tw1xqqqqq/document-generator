@@ -1,4 +1,4 @@
-import { AppShell, Badge, Group, NavLink, Stack, Text, Title } from '@mantine/core';
+import { AppShell, Group, NavLink, Stack, Text } from '@mantine/core';
 import {
   IconBuildingSkyscraper,
   IconFileStack,
@@ -14,10 +14,10 @@ import { TemplateDetailPage } from './pages/TemplateDetailPage';
 import { TemplatesPage } from './pages/TemplatesPage';
 
 const navigation = [
-  { to: '/generate', label: 'Генерация', icon: IconWand, description: 'Создать документ' },
-  { to: '/templates', label: 'Шаблоны', icon: IconFileStack, description: 'Печатные формы' },
-  { to: '/organizations', label: 'Организации', icon: IconBuildingSkyscraper, description: 'Реквизиты' },
-  { to: '/documents', label: 'Документы', icon: IconFileText, description: 'Журнал выпущенных' },
+  { to: '/generate', label: 'Генерация', icon: IconWand },
+  { to: '/templates', label: 'Шаблоны', icon: IconFileStack },
+  { to: '/organizations', label: 'Организации', icon: IconBuildingSkyscraper },
+  { to: '/documents', label: 'Документы', icon: IconFileText },
 ];
 
 export function App() {
@@ -27,13 +27,10 @@ export function App() {
   return (
     <AppShell header={{ height: 60 }} navbar={{ width: 260, breakpoint: 'sm' }} padding="lg">
       <AppShell.Header>
-        <Group h="100%" px="md" justify="space-between">
-          <Group gap="xs">
-            <Title order={4}>Генератор документов</Title>
-            <Badge variant="light" size="sm">
-              docx → pdf
-            </Badge>
-          </Group>
+        <Group h="100%" px="md">
+          <Text fw={600} size="lg">
+            Генератор документов
+          </Text>
         </Group>
       </AppShell.Header>
 
@@ -43,19 +40,12 @@ export function App() {
             <NavLink
               key={item.to}
               label={item.label}
-              description={item.description}
               leftSection={<item.icon size={18} stroke={1.6} />}
               active={location.pathname.startsWith(item.to)}
               onClick={() => navigate(item.to)}
             />
           ))}
         </Stack>
-
-        <Text size="xs" c="dimmed" mt="auto" p="xs">
-          Метки в шаблоне: <Text span ff="monospace">{'${поле}'}</Text>
-          <br />
-          Реквизиты организации подставляются автоматически.
-        </Text>
       </AppShell.Navbar>
 
       <AppShell.Main>

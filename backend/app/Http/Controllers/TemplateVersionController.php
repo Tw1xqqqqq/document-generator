@@ -49,7 +49,7 @@ class TemplateVersionController extends Controller
 
     /**
      * Откат к предыдущей версии: делает её снова актуальной.
-     * Файл не копируется — просто меняется указатель.
+     * Файл не копируется - просто меняется указатель.
      */
     public function restore(Template $template, TemplateVersion $version): TemplateResource
     {
