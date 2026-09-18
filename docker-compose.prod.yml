@@ -39,7 +39,6 @@ services:
     environment:
       # Домен для сертификата, либо http://IP пока домена нет
       SITE_ADDRESS: ${SITE_ADDRESS}
-      LETSENCRYPT_EMAIL: ${LETSENCRYPT_EMAIL}
     volumes:
       - ./docker/caddy/Caddyfile:/etc/caddy/Caddyfile:ro
       - caddy_data:/data      # сертификаты, переживают пересоздание контейнера
