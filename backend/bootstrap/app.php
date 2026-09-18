@@ -15,7 +15,14 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
+        // Приложение работает за прокси (nginx, а на сервере ещё и Caddy).
+        // Без этой настройки Laravel видит обычный http-запрос от прокси
+        // и строит ссылки на файлы со схемой http, хотя сайт открыт по https.
+        // Браузер такие ссылки на защищённой странице блокирует.
         //
+        // Доверять можно всем адресам: снаружи приложение доступно
+        // только через прокси, напрямую порт не опубликован.
+        $middleware->trustProxies(at: '*');
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->shouldRenderJsonWhen(
