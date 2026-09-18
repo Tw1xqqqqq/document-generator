@@ -31,6 +31,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router';
 
 import { ApiError } from '../api/client';
+import { pluralize } from '../lib/plural';
 import { useDeleteTemplate, useOrganizations, useTemplates, useUploadTemplate } from '../api/queries';
 import type { Template } from '../api/types';
 
@@ -157,9 +158,17 @@ export function TemplatesPage() {
                     {[
                       template.organization?.name ?? 'Общий шаблон',
                       `версия ${template.current_version?.version ?? 1}`,
-                      `${template.current_version?.placeholders.length ?? 0} меток`,
+                      pluralize(template.current_version?.placeholders.length ?? 0, [
+                        'метка',
+                        'метки',
+                        'меток',
+                      ]),
                       template.documents_count
-                        ? `${template.documents_count} документов`
+                        ? pluralize(template.documents_count, [
+                            'документ',
+                            'документа',
+                            'документов',
+                          ])
                         : null,
                     ]
                       .filter(Boolean)
