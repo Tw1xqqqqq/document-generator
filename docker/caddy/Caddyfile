@@ -1,0 +1,39 @@
+# Точка входа снаружи. Caddy сам выпускает и продлевает
+# сертификат Let's Encrypt для указанного домена.
+
+{
+	email {$LETSENCRYPT_EMAIL}
+}
+
+{$DOMAIN} {
+	encode zstd gzip
+
+	# Ограничение доступа паролем.
+	# Раскомментируйте и подставьте хэш, полученный командой:
+	#   docker compose exec caddy caddy hash-password --plaintext 'ваш-пароль'
+	#
+	# basic_auth {
+	# 	admin $2a$14$хэш-пароля
+	# }
+
+	# Документы могут быть большими, поэтому предел выше стандартного
+	request_body {
+		max_size 32MB
+	}
+
+	# Конвертация в PDF занимает время: LibreOffice не должен
+	# обрываться по таймауту на тяжёлых документах
+	reverse_proxy nginx:80 {
+		transport http {
+			response_header_timeout 180s
+			read_timeout 180s
+		}
+	}
+
+	log {
+		output file /data/access.log {
+			roll_size 10MB
+			roll_keep 5
+		}
+	}
+}

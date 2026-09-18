@@ -6,6 +6,7 @@
 /frontend/dist
 
 # Локальные настройки и база
+/.env
 /backend/.env
 /backend/database/*.sqlite
 /backend/storage/app/templates

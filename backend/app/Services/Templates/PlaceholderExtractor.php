@@ -2,8 +2,8 @@
 
 namespace App\Services\Templates;
 
+use App\Exceptions\DocumentGenerationException;
 use PhpOffice\PhpWord\TemplateProcessor;
-use RuntimeException;
 
 /**
  * Достаёт из docx-файла список меток вида ${client_name}.
@@ -26,13 +26,13 @@ class PlaceholderExtractor
     public function extract(string $absolutePath): array
     {
         if (! is_file($absolutePath)) {
-            throw new RuntimeException("Файл шаблона не найден: {$absolutePath}");
+            throw new DocumentGenerationException("Файл шаблона не найден: {$absolutePath}");
         }
 
         try {
             $processor = new TemplateProcessor($absolutePath);
         } catch (\Throwable $e) {
-            throw new RuntimeException(
+            throw new DocumentGenerationException(
                 'Не удалось прочитать файл шаблона. Убедитесь, что это docx, а не doc или pdf.',
                 previous: $e
             );

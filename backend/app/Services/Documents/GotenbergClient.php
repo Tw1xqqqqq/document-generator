@@ -2,8 +2,8 @@
 
 namespace App\Services\Documents;
 
+use App\Exceptions\DocumentGenerationException;
 use Illuminate\Support\Facades\Http;
-use RuntimeException;
 
 /**
  * Клиент сервиса конвертации Gotenberg (внутри него LibreOffice).
@@ -26,7 +26,7 @@ class GotenbergClient
     public function convertToPdf(string $docxPath, string $fileName = 'document.docx'): string
     {
         if (! is_file($docxPath)) {
-            throw new RuntimeException("Файл для конвертации не найден: {$docxPath}");
+            throw new DocumentGenerationException("Файл для конвертации не найден: {$docxPath}");
         }
 
         $response = Http::timeout($this->timeout)
@@ -34,7 +34,7 @@ class GotenbergClient
             ->post(rtrim($this->baseUrl, '/').'/forms/libreoffice/convert');
 
         if ($response->failed()) {
-            throw new RuntimeException(
+            throw new DocumentGenerationException(
                 'Сервис конвертации вернул ошибку '.$response->status().'. '
                 .'Проверьте, что контейнер gotenberg запущен.'
             );

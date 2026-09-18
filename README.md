@@ -123,7 +123,13 @@ DELETE /api/documents/{id}
 docker compose exec app php artisan test
 ```
 
-17 тестов: разбор меток, загрузка шаблонов и версионирование, подстановка реквизитов, форматирование дат и чисел, экранирование спецсимволов, валидация, скачивание файлов. Конвертер в тестах подменяется заглушкой, поэтому запуск не зависит от контейнера Gotenberg.
+20 тестов: разбор меток, загрузка шаблонов и версионирование, подстановка реквизитов, форматирование дат и чисел, экранирование спецсимволов, валидация, скачивание файлов, ответы на ошибки. Конвертер в тестах подменяется заглушкой, поэтому запуск не зависит от контейнера Gotenberg.
+
+Если контейнер запущен в боевом режиме, перед тестами нужно сбросить кэш конфигурации, иначе настройки тестового окружения не применятся:
+
+```bash
+docker compose exec app php artisan config:clear
+```
 
 ## Разработка
 
@@ -139,6 +145,86 @@ cd frontend && npm install && npm run dev
 
 ```bash
 docker compose exec app php artisan migrate:fresh --seed
+```
+
+## Развёртывание на сервере
+
+Требования: Ubuntu 22.04 или 24.04, 2 ГБ оперативной памяти (лучше 4, внутри Gotenberg работает LibreOffice), 20 ГБ диска.
+
+### 1. Домен
+
+Создайте в DNS A-запись, указывающую на IP сервера. Без этого Let's Encrypt не выдаст сертификат. Проверить, что запись разошлась:
+
+```bash
+dig +short documents.example.com
+```
+
+### 2. Docker на сервере
+
+```bash
+curl -fsSL https://get.docker.com | sh
+```
+
+### 3. Файрвол
+
+```bash
+ufw allow 22/tcp && ufw allow 80/tcp && ufw allow 443/tcp && ufw enable
+```
+
+### 4. Запуск
+
+```bash
+git clone https://github.com/Tw1xqqqqq/document-generator.git /opt/document-generator
+```
+
+```bash
+cd /opt/document-generator && cp .env.prod.example .env
+```
+
+Укажите в `.env` домен и почту, затем:
+
+```bash
+docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build
+```
+
+Первая сборка занимает несколько минут. Сертификат выпускается автоматически при первом обращении к домену.
+
+Проверка:
+
+```bash
+curl https://documents.example.com/api/health
+```
+
+Что отличается от локального запуска: отладка выключена, конфигурация и маршруты закэшированы, контейнеры поднимаются сами после перезагрузки сервера, снаружи доступен только Caddy, а демонстрационные данные не заливаются (включаются через `SEED_DEMO_DATA=true`).
+
+### Обновление
+
+```bash
+cd /opt/document-generator && git pull && docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build
+```
+
+База и загруженные файлы при этом не трогаются.
+
+### Резервная копия
+
+Все данные лежат в двух местах: `backend/database/database.sqlite` и `backend/storage/app`.
+
+```bash
+tar czf backup-$(date +%F).tar.gz backend/database/database.sqlite backend/storage/app
+```
+
+### Ограничение доступа паролем
+
+Авторизации в приложении нет, поэтому на публичном домене доступ можно закрыть на уровне Caddy. Получите хэш пароля:
+
+```bash
+docker compose exec caddy caddy hash-password --plaintext 'ваш-пароль'
+```
+
+Раскомментируйте блок `basic_auth` в [docker/caddy/Caddyfile](docker/caddy/Caddyfile), вставьте хэш и перезапустите:
+
+```bash
+docker compose -f docker-compose.yml -f docker-compose.prod.yml restart caddy
 ```
 
 ## Дальнейшие шаги

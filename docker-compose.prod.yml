@@ -1,0 +1,51 @@
+# Настройки для сервера. Применяются поверх основного файла:
+#   docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build
+#
+# Что добавляется по сравнению с локальным запуском:
+#   - HTTPS с автоматическим сертификатом Let's Encrypt (контейнер caddy);
+#   - боевой режим приложения: без отладки, с кэшем конфигурации;
+#   - автоматический перезапуск контейнеров после перезагрузки сервера.
+
+services:
+  app:
+    environment:
+      APP_ENV: production
+      APP_DEBUG: "false"
+      APP_URL: https://${DOMAIN}
+      # Демонстрационные данные на сервере не нужны: иначе при каждом
+      # перезапуске правки в карточках организаций затирались бы
+      SEED_DEMO_DATA: ${SEED_DEMO_DATA:-false}
+      GOTENBERG_URL: http://gotenberg:3000
+    restart: unless-stopped
+
+  nginx:
+    # Наружу отдаёт только caddy, поэтому порт остаётся доступен
+    # лишь с самого сервера (удобно для диагностики)
+    ports: !override
+      - "127.0.0.1:8080:80"
+    restart: unless-stopped
+
+  gotenberg:
+    restart: unless-stopped
+
+  # Точка входа снаружи: TLS, редирект с http на https,
+  # сжатие ответов. Сертификат выпускается и продлевается сам.
+  caddy:
+    image: caddy:2-alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      DOMAIN: ${DOMAIN}
+      LETSENCRYPT_EMAIL: ${LETSENCRYPT_EMAIL}
+    volumes:
+      - ./docker/caddy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data      # сертификаты, переживают пересоздание контейнера
+      - caddy_config:/config
+    depends_on:
+      - nginx
+    restart: unless-stopped
+
+volumes:
+  caddy_data:
+  caddy_config:

@@ -2,6 +2,7 @@
 
 namespace App\Services\Documents;
 
+use App\Exceptions\DocumentGenerationException;
 use App\Models\Document;
 use App\Models\Organization;
 use App\Models\Template;
@@ -11,7 +12,6 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use PhpOffice\PhpWord\TemplateProcessor;
-use RuntimeException;
 
 /**
  * Создание документа: подстановка значений в docx и конвертация в PDF.
@@ -183,7 +183,7 @@ class DocumentGenerator
         $version = $template->currentVersion;
 
         if (! $version) {
-            throw new RuntimeException('У шаблона нет загруженного файла.');
+            throw new DocumentGenerationException('У шаблона нет загруженного файла.');
         }
 
         return $version;
